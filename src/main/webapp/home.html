@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Track Application</title>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	<div>
+		<h1>Track Application</h1>
+	</div>
+	<div id="url_container"></div>
+	<div id="top_visited_container"></div>
+	<script type="text/babel">
+        var ResultBox = React.createClass({
+            getInitialState: function() {
+                return {result: 'No result.' };
+            },
+            updateResult: function(data) {
+				this.setState({ result: data});
+            },
+            addUrl: function(value) {
+			this.setState({ result: '' });
+            $.ajax({
+                type: 'GET',
+                url: '/RESTfulExample/rest/trackService/track?' + 'url=' + value,
+                dataType: 'json',
+                success: this.updateResult
+            	});
+        	},
+            render: function() {
+                return (
+                    <div>
+                        <h2>Please click on below url to test tracking</h2>
+						<div><a href="" onClick={()=>this.addUrl("www.google.com")}>https://www.google.com</a></div>
+						<div><a href="" onClick={()=>this.addUrl("www.amazon.com")}>https://www.amazon.com</a></div>
+						<div><a href="" onClick={()=>this.addUrl("www.xyz.com")}>https://www.xyz.com</a></div>
+						<div><a href="" onClick={()=>this.addUrl("www.zy.com")}>https://www.zy.com</a></div>
+						<div><a href="" onClick={()=>this.addUrl("www.xy.com")}>https://www.xy.com</a></div>
+						<div><a href="" onClick={()=>this.addUrl("www.yz.com")}>https://www.yz.com</a></div>
+                        <p>Result: {this.state.result}</p>
+                    </div>);
+            }
+        });
+
+		var TopVisited = React.createClass({
+            getInitialState: function() {
+                return {result: 'No result.' };
+            },
+            updateResult: function(data) {
+				for (var i = 0; i < data.length; i++) {
+				this.setState({ result1: data[0],
+								result2: data[1],
+								result3: data[3]});
+				}
+            },
+            topVisited: function() {
+			this.setState({ result: '' });
+            $.ajax({
+                type: 'GET',
+                url: '/RESTfulExample/rest/trackService/getTopVisited',
+                dataType: 'json',
+                success: this.updateResult
+            	});
+        	},
+            render: function() {
+                return (
+                    <div>
+                        <h2>Please click on below to see top 3 visited domains</h2>
+						<input value="Top 3 Visited" type="button" onClick={() => this.topVisited()}/>
+						<p>Restuls:</p>
+						<p>{this.state.result1}</p>
+						<p>{this.state.result2}</p>
+						<p>{this.state.result3}</p>
+                    </div>);
+            }
+        });
+ReactDOM.render(<ResultBox />, document.getElementById('url_container'));
+ReactDOM.render(<TopVisited />, document.getElementById('top_visited_container'));
+</script>
+</body>
+</html>
