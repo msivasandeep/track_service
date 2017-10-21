@@ -36,7 +36,7 @@ public class TrackDao {
 						.compareTo(String.valueOf(o1.getCount()));
 			}
 		});
-		if(topVisitedList.size() >= 3)
+		if(trackUrlList.size() >= 3)
 		{
 			topVisitedList.add(trackUrlList.get(0).getDomainName());
 			topVisitedList.add(trackUrlList.get(1).getDomainName());
