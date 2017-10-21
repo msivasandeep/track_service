@@ -11,10 +11,10 @@ public class TrackDao {
 	private static Map<String, TrackUrl> registry = new HashMap<String,TrackUrl>();
 
 	public void addUrl(String url){
-		TrackUrl trackUrl = new TrackUrl();
-		trackUrl.setDomainName(url);
 		if(!registry.containsKey(url))
 		{
+			TrackUrl trackUrl = new TrackUrl();
+			trackUrl.setDomainName(url);
 			trackUrl.setCount(1);
 			registry.put(url, trackUrl);
 		}
